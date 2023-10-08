@@ -109,6 +109,11 @@ if __name__ == '__main__':
                     pt1 = (bbox[0], bbox[1])
                     pt2 = (bbox[0] + bbox[2], bbox[1] + bbox[3])
                     dst_image = cv2.rectangle(dst_image, pt1, pt2, (0, 0, 255), 2)
+                    
+                    # Menghitung jumlah kotak berwarna merah yang terdeteksi
+                    red_edge_box_count = len(indices)
+                    
+                    cv2.putText(dst_image, f'Jumlah : {red_edge_box_count}', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
             # Show and save
             if show_flag:
