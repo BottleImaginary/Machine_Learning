@@ -4,7 +4,7 @@ from PIL import Image
 import numpy as np
 
 # Load model
-model = tf.keras.models.load_model("model_checkpoint.h5")
+model = tf.keras.models.load_model("bottle_detection_model.h5")
 
 # Initialize Flask app
 app = Flask(__name__)
