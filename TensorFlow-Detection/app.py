@@ -11,24 +11,25 @@ app = Flask(__name__)
 
 
 # Define API endpoint for prediction
-@app.route("/predict", methods=["POST"])
+@app.route("/predict", methods=["GET", "POST"])
 def predict():
-    # Get image file from request
-    file = request.files["image"]
-    # Load and preprocess the image
-    image = Image.open(file).convert("RGB")
-    image = image.resize(
-        (224, 224)
-    )  # Adjust the size according to your model's input shape
-    image = np.array(image) / 255.0  # Normalize the image
+    if request.method == "POST":
+        # Get image file from request
+        file = request.files["image"]
+        # Load and preprocess the image
+        image = Image.open(file).convert("RGB")
+        image = image.resize((64, 64))  # Adjust the size according to your model's input shape
+        image = np.array(image) / 255.0  # Normalize the image
 
-    # Perform prediction
-    prediction = model.predict(np.expand_dims(image, axis=0))
-    predicted_class = np.argmax(prediction)
+        # Perform prediction
+        prediction = model.predict(np.expand_dims(image, axis=0))
+        predicted_class = np.argmax(prediction)
 
-    # Return the predicted class as JSON response
-    response = {"predicted_class": str(predicted_class)}
-    return jsonify(response)
+        # Return the predicted class as JSON response
+        response = {"predicted_class": str(predicted_class)}
+        return jsonify(response)
+    else:
+        return "This is a POST endpoint. Send a POST request with an image to get predictions."
 
 
 # Run the Flask app
